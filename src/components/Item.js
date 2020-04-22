@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { fridge } from 'reducers/fridge'
-import moment from 'moment'
-import { Button } from 'lib/Button'
-import styled from 'styled-components'
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { fridge } from 'reducers/fridge';
+import moment from 'moment';
+import { Button } from 'lib/Button';
+import styled from 'styled-components';
+import { CustomCheckbox } from './CustomCheckbox';
 
 const ListItem = styled.li`
   list-style: none;
@@ -14,20 +15,20 @@ const ListItem = styled.li`
     font-style: italic;
     font-size: 12px;
   }
-`
+`;
 
 export const Item = (props) => {
-  const { id, name, dueDate, category, needsMore, startDate } = props.item
+  const { id, name, dueDate, category, needsMore, startDate } = props.item;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleCheckboxClick = () => {
-    dispatch(fridge.actions.toggleNeedsMore(id))
-  }
+    dispatch(fridge.actions.toggleNeedsMore(id));
+  };
 
   const handleRemoveButtonClick = () => {
-    dispatch(fridge.actions.removeItem(id))
-  }
+    dispatch(fridge.actions.removeItem(id));
+  };
 
   return (
     <ListItem>
@@ -36,11 +37,16 @@ export const Item = (props) => {
 
       <label>
         buy more
-        <input
-          type='checkbox'
+        {/* Here is the checkbox that we want to replace */}
+        <CustomCheckbox
+          isChecked={needsMore}
+          onChangeHandler={handleCheckboxClick}
+        />
+        {/* <input
+          type="checkbox"
           checked={needsMore}
           onChange={handleCheckboxClick}
-        />
+        /> */}
       </label>
 
       <Button onClick={handleRemoveButtonClick}>remove</Button>
@@ -48,5 +54,5 @@ export const Item = (props) => {
       <span>ADDED: {moment(startDate).format('MMM Do YYYY')}</span>
       {dueDate && <span> -> DUE: {moment(dueDate).format('MMM Do YYYY')}</span>}
     </ListItem>
-  )
-}
+  );
+};
